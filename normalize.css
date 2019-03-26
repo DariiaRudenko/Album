@@ -1,0 +1,38 @@
+body {
+  background: rgb(230, 214, 214);
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+#container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+/* .flex{
+  display: flex; 
+}
+#albums{
+  border: 4px solid #555;
+  width: 1205px;
+  height: 700px;
+}
+.gallery__title {
+  border: 4px solid #555;
+  font-family: Verdana;
+  width: 1200px;
+  height: 50px;
+}
+.previous{
+  border: 4px solid #555;
+  height: 635px;
+  width: 50px;
+}
+.next{
+  border: 4px solid #555;
+  height: 635px;
+  width: 50px;
+  float: right;
+} */
