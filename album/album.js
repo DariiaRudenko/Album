@@ -4,8 +4,8 @@ async function renderAlbum({ id, title }) {
     const album = document.createElement('div');
     album.setAttribute('class', 'album');
     album.appendChild(getTitleElement(title));
-    album.appendChild(leftButton());
-    album.appendChild(rightButton());
+    album.appendChild(getButton('left-button', moveBack));
+    album.appendChild(getButton('right-button', moveForward));
     album.appendChild(await getContent(id));
     const albumContainer = document.querySelector('.container');
     albumContainer.appendChild(album);
@@ -19,10 +19,10 @@ function getTitleElement(title) {
     return titleElement;
 }
 
-async function getContent(albumId) {
+function getContent(albumId) {
     const content = document.createElement('div');
     content.setAttribute('class', 'album__content-wrapper');
-    await renderPhotos(content, albumId);
+    renderPhotos(content, albumId);
 
     return content;
 }
@@ -36,40 +36,74 @@ async function renderPhotos(wrapper, albumId) {
     const thumbnails = await getPhotoThumbnails(albumId);
     thumbnails.map(thumbnailElement => wrapper.appendChild(thumbnailElement));
 }
-function leftButton() {
-    const buttonLeft = document.createElement('div');
-    buttonLeft.setAttribute('class', 'left__Button');
-    buttonLeft.addEventListener('click', moveBack);
-    //ButtonLeft.appendChild('button');  
-    return buttonLeft;
+// function leftButton() {
+//     const buttonLeft = document.createElement('div');
+//     buttonLeft.setAttribute('class', 'album__left-button');
+//     buttonLeft.addEventListener('click', moveBack);
+//     //ButtonLeft.appendChild('button');  
+//     return buttonLeft;
+// }
+
+// function rightButton() {
+//     const buttonRight = document.createElement('div');
+//     buttonRight.setAttribute('class', 'album__right-button');
+//     buttonRight.addEventListener('click', moveForward);
+//     // const btn = document.createElement('button');
+//     // // btn.setAttribute("class", "album__right-btn");
+//     // buttonRight.appendChild(btn);
+//     return buttonRight;
+// }
+// function makeButton(place) {
+//     const button = document.createElement('div');
+//     button.setAttribute('class', `album__${place}-button`);
+//     if (place === 'right') {
+//         button.addEventListener('click', moveForward);
+
+//     } else {
+//         button.addEventListener('click', moveBack);
+//     }
+//     const btn = document.createElement("p");
+//     const content = document.createTextNode("ЭТО  КНОПКА");
+//     btn.setAttribute("class", "album__btn");
+//     // content.setAttribute("id", "btn-text");
+//     btn.appendChild(content);
+//     button.appendChild(btn);
+//     return button;
+// }
+function getButton(className, eventHandler) {
+    const button = document.createElement('div');
+    button.setAttribute('class', `album__${className}`);
+    button.addEventListener('click', eventHandler);
+    const btn = document.createElement("p");
+    const content = document.createTextNode("ЭТО  КНОПКА");
+    btn.setAttribute("class", "album__btn");
+    btn.appendChild(content);
+    button.appendChild(btn);
+    return button;
 }
 
-function rightButton() {
-    const buttonRight = document.createElement('div');
-    buttonRight.setAttribute('class', 'right__Button');
-    buttonRight.addEventListener('click', moveForward);
-    // const btn = document.createElement('button');
-    // // btn.setAttribute("class", "album__right-btn");
-    // buttonRight.appendChild(btn);
-    return buttonRight;
-}
+
 
 function removeAlbum() {
     const album = document.querySelector('.container');
-    console.log(album);
-    
     album.innerHTML = '';
 }
 
-async function moveForward() {
+function moveBack() {
     removeAlbum();
-    selectedAlbumIndex++;
-    await renderAlbum(albumsData[selectedAlbumIndex]);
+    if (selectedAlbumIndex === 0) {
+        selectedAlbumIndex = albumsData.length - 1;
+    } else {
+        selectedAlbumIndex--;
+    }
+    renderAlbum(albumsData[selectedAlbumIndex]);
 }
-async function moveBack() {
+function moveForward() {
     removeAlbum();
-    selectedAlbumIndex--;
-    await renderAlbum(albumsData[selectedAlbumIndex]);
+    if (selectedAlbumIndex === albumsData.length - 1) {
+        selectedAlbumIndex = 0;
+    } else {
+        selectedAlbumIndex++;
+    }
+    renderAlbum(albumsData[selectedAlbumIndex]);
 }
-
-
